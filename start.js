@@ -1,6 +1,7 @@
 var Discord = require("discord.js");
 var bot = new Discord.Client();
 var request = require("request");
+const fs = require("fs");
 
 var DateDiff = require('date-diff');
 

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rm npmsetup.log
+rm config.txt
 echo "BouncerBot by Elliott Pardee (vypr)"
 echo "-----------------------------------"
 echo ""
