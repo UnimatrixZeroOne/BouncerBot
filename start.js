@@ -61,10 +61,6 @@ bot.on("error", e => {
 
 bot.on("message", raw => {
     // taking the raw message object and making it more usable
-
-    console.log("" + config[2].substring(1).trim());
-    console.log();
-
     var sender = raw.author.username + "#" + raw.author.discriminator;
     var channel = raw.channel;
     var guild = raw.guild;
