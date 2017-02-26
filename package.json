@@ -1,0 +1,23 @@
+{
+  "name": "bouncerbot",
+  "version": "1.0.0",
+  "description": "A Discord bot that acts as a club bouncer for a server.",
+  "main": "start.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vypr/BouncerBot.git"
+  },
+  "author": "Elliott Pardee (vypr)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vypr/BouncerBot/issues"
+  },
+  "homepage": "https://github.com/vypr/BouncerBot#readme",
+  "dependencies": {
+    "discord.js": "^11.0.0",
+    "nodemon": "^1.11.0"
+  }
+}
