@@ -100,6 +100,7 @@ bot.on("message", raw => {
 
 bot.on("guildMemberAdd", raw => {
     var diff = new DateDiff(new Date(), raw.user.createdAt);
+    var username = raw.user.username + "#" + raw.user.discriminator;
 
     var chan = bot.guilds.first().channels.find("name", config[2].substring(1).trim());
 
