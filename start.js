@@ -62,6 +62,9 @@ bot.on("error", e => {
 bot.on("message", raw => {
     // taking the raw message object and making it more usable
 
+    console.log("" + config[2].substring(1).trim());
+    console.log();
+
     var sender = raw.author.username + "#" + raw.author.discriminator;
     var channel = raw.channel;
     var guild = raw.guild;
@@ -96,11 +99,13 @@ bot.on("message", raw => {
 });
 
 bot.on("guildMemberAdd", raw => {
-    var diff = new DateDiff(new Date(), raw.client.user.createdAt);
-    var username = raw.client.user.username + "#" + raw.client.user.discriminator;
+    var diff = new DateDiff(new Date(), raw.user.createdAt);
+
+    var chan = bot.guilds.first().channels.find("name", config[2].substring(1).trim());
+
     if (diff.minutes() < 31) {
         raw.ban();
-        bot.sendMessage(config[2], "@" + config[1] + " Banning " + username + " for being too new.");
+        chan.sendMessage(bot.guilds.first().owner + " - Banning " + raw + " for being too new.");
         logMessage("info", username, "global", "banning " + username + ", account created <= 30 minutes");
     }
 });
