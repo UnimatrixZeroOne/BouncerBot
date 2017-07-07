@@ -1,6 +1,8 @@
 var Discord = require("discord.js");
 var bot = new Discord.Client();
 var request = require("request");
+var async = require("async");
+var moment = require("moment");
 const fs = require("fs");
 
 var DateDiff = require('date-diff');
@@ -100,11 +102,38 @@ bot.on("guildMemberAdd", raw => {
 
     var chan = bot.guilds.first().channels.find("name", config[2].substring(1).trim());
 
-    if (diff.minutes() < 31) {
-        raw.ban();
-        chan.sendMessage(bot.guilds.first().owner + " - Banning " + raw + " for being too new.");
-        logMessage("info", username, "global", "banning " + username + ", account created <= 30 minutes");
-    }
-});
+   if (diff.minutes() < 86400) {
+    	async.series([
+            function(callback) {
+                raw.send("Due to your account being too new, you have been banned as a precaution. If you would like to appeal the ban in order to join the server, please join the server linked below.\n\n https://discord.gg/E8DUxmA");
+                callback(null, "send");
+            },
+            function(callback) {
+				setTimeout(function(){}, 2000);
+                raw.ban();
+                chan.send(bot.guilds.first().owner + " - Banning " + raw + " for being too new.");
+				logMessage("info", username, "global", "banning " + username + ", account created <= 24 hours");
+                callback(null, "ban");
+            }
+        ],
+        function(err, results) {
+            if (err != null) {
+                logMessage("err", "global", "global", "failed to perform async operations for banning");
+            }
+        });
+	}
+	if (diff.minutes() > 86400) {
+        if (typeof raw.user != "undefined") { 
+const embed = new Discord.RichEmbed();
+  embed.addField(`${raw.user.username}#${raw.user.discriminator}`, `${raw.user.id}`, true)
+          .setColor(54696)
+          .setFooter(' ', ' ')
+          .setThumbnail(`${raw.user.displayAvatarURL}`)
+          .setURL(`${raw.user.displayAvatarURL}`)
+          .addField('Joined Discord on', `${moment(raw.user.createdAt).format('DD MMM YYYY HH:mm')}`, true)
+          .addField('Joined this server on', `${moment(raw.joinedAt).format('DD MMM YYYY HH:mm')}`, true)
+      chan.send({ embed: embed });
+	  }
+}});
 
 bot.login(config[0]);
